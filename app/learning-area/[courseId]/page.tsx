@@ -9,7 +9,7 @@ import {
   ReactNode,
   ReactPortal,
 } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { studentService } from "@/app/utils/services/student";
 import { toast } from "react-toastify";
 import {
@@ -60,14 +60,9 @@ export default function LearningArea() {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const router = useRouter();
+
   useEffect(() => {
     const fetchCourse = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        router.push("/");
-        return;
-      }
       try {
         setIsLoading(true);
         const response = await studentService.getCourse(courseId);
@@ -316,8 +311,7 @@ export default function LearningArea() {
           : video.unlocked
           ? "hover:bg-blue-50"
           : "opacity-60 cursor-not-allowed"
-      }`}
-    >
+      }`}>
       <div
         className={`w-6 h-6 rounded-full ${
           !video.unlocked
@@ -327,8 +321,7 @@ export default function LearningArea() {
             : video.isCompleted
             ? "bg-green-100"
             : "bg-blue-100"
-        } flex items-center justify-center`}
-      >
+        } flex items-center justify-center`}>
         {!video.unlocked ? (
           <FiLock className="w-4 h-4 text-gray-500" />
         ) : video.isCompleted ? (
@@ -349,8 +342,7 @@ export default function LearningArea() {
               : video.unlocked
               ? "text-gray-800"
               : "text-gray-500"
-          }`}
-        >
+          }`}>
           {video.title}
         </p>
         {video.unlocked && (
@@ -359,8 +351,7 @@ export default function LearningArea() {
               selectedVideo?._id === video._id
                 ? "text-blue-100"
                 : "text-gray-500"
-            }`}
-          >
+            }`}>
             {video.duration}
           </p>
         )}
@@ -376,15 +367,13 @@ export default function LearningArea() {
           showSidebar ? "w-full md:w-80" : "w-0"
         } bg-white/80 backdrop-blur-xl shadow-lg transition-all duration-300 flex flex-col h-full border-r border-blue-100 ${
           showSidebar ? "block" : "hidden md:flex"
-        }`}
-      >
+        }`}>
         <div className="p-4 md:p-6 border-b border-blue-100 bg-gradient-to-r from-[#307BE9]/10 to-purple-100 flex flex-col space-y-2">
           <div className="flex justify-between items-center">
             <h2 className="font-bold text-[#307BE9] text-lg">{courseTitle}</h2>
             <button
               onClick={() => setShowSidebar(false)}
-              className="md:hidden text-gray-500 hover:text-[#307BE9]"
-            >
+              className="md:hidden text-gray-500 hover:text-[#307BE9]">
               <FiX className="w-5 h-5" />
             </button>
           </div>
@@ -406,8 +395,7 @@ export default function LearningArea() {
             <div key={module._id} className="px-4 mb-4">
               <button
                 onClick={() => toggleModule(module._id)}
-                className="w-full p-4 flex items-center justify-between bg-white rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-300 border border-blue-100"
-              >
+                className="w-full p-4 flex items-center justify-between bg-white rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-300 border border-blue-100">
                 <div className="flex items-center space-x-3">
                   <div className="text-left">
                     <h3 className="font-medium text-gray-800">
@@ -443,8 +431,7 @@ export default function LearningArea() {
           {!showSidebar && (
             <button
               onClick={() => setShowSidebar(true)}
-              className="mr-4 hover:text-[#307BE9]"
-            >
+              className="mr-4 hover:text-[#307BE9]">
               <FiMenu className="w-6 h-6" />
             </button>
           )}
@@ -455,8 +442,7 @@ export default function LearningArea() {
           </div>
           <button
             className="text-gray-500 hover:text-[#307BE9]"
-            onClick={toggleFullscreen}
-          >
+            onClick={toggleFullscreen}>
             {isFullscreen ? (
               <FiMinimize className="w-5 h-5" />
             ) : (
@@ -470,8 +456,7 @@ export default function LearningArea() {
           <div
             className={`bg-black video-container ${
               isFullscreen ? "h-screen" : "aspect-video"
-            }`}
-          >
+            }`}>
             {selectedVideo ? (
               <video
                 ref={videoRef}
@@ -499,16 +484,14 @@ export default function LearningArea() {
                   <button
                     onClick={navigateToPreviousVideo}
                     className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
-                    title="Previous Video"
-                  >
+                    title="Previous Video">
                     <FiArrowLeft className="w-5 h-5 text-gray-700" />
                   </button>
 
                   <button
                     onClick={navigateToNextVideo}
                     className="p-2 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors"
-                    title="Next Video"
-                  >
+                    title="Next Video">
                     <FiArrowRight className="w-5 h-5 text-blue-700" />
                   </button>
                 </div>
